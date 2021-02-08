@@ -1,25 +1,29 @@
-FROM ubuntu:latest
-COPY . /home/app_java
+FROM ubuntu
+RUN apt-get update
+COPY . /home/spring_app
 
-# install jdk8
-RUN apt-get update && apt-get install -y openjdk-8-jdk
+# Install java8
+RUN apt-get update
+RUN	apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-RUN export  JAVA_HOME
+RUN export JAVA_HOME
 
-# install maven
+# Insert maven
 RUN apt install -y maven
-ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_HOME /opt/maven
 RUN export MAVEN_HOME
 
-# run app
-WORKDIR /home/app_java/employee/target
-CMD ["java", "-jar", "spring-boot-docker-mysql.jar"]
+# Build file jar
+WORKDIR /home/spring_app/employee
+RUN ["mvn", "package"]
+
+# Run file jar 
+WORKDIR /home/spring_app/employee/target
+ENTRYPOINT ["java", "-jar"]
+CMD ["spring-boot-docker-mysql.jar"]
+
 
 EXPOSE 8090
-
-
-
-
 
 
 
