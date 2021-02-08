@@ -13,15 +13,10 @@ RUN apt install -y maven
 ENV MAVEN_HOME /opt/maven
 RUN export MAVEN_HOME
 
-# Build file jar
-WORKDIR /home/spring_app/employee
-RUN ["mvn", "package"]
-
 # Run file jar 
 WORKDIR /home/spring_app/employee/target
 ENTRYPOINT ["java", "-jar"]
 CMD ["spring-boot-docker-mysql.jar"]
-
 
 EXPOSE 8090
 
