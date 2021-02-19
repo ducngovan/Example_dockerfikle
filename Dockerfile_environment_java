@@ -1,26 +1,26 @@
+# vài java - cài maven - build file jar - chạy app
 FROM ubuntu
 RUN apt-get update
 COPY . /home/spring_app
 
-# Install java8
+#install java8
 RUN apt-get update
 RUN	apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME
 
-# Insert maven
+#insert maven
+RUN apt-get update
 RUN apt install -y maven
 ENV MAVEN_HOME /opt/maven
 RUN export MAVEN_HOME
 
-# Run file jar 
+WORKDIR /home/spring_app/employee
+RUN ["mvn", "package"]
+
 WORKDIR /home/spring_app/employee/target
 ENTRYPOINT ["java", "-jar"]
 CMD ["spring-boot-docker-mysql.jar"]
 
+
 EXPOSE 8090
-
-
-
-
-
